@@ -26,7 +26,7 @@ def _(mo):
 
 
 @app.cell
-def _(theta_slider):
+def _(theta_slider, mo):
     import math
     from PIL import Image, ImageDraw, ImageFont
     import io
@@ -52,6 +52,7 @@ def _(theta_slider):
     GOLD = (255, 215, 0)
     GRAY = (150, 150, 160)
     LIGHT_GRAY = (120, 120, 130)
+    BLACK = (0, 0, 0)
 
 
     def S(theta_deg):
@@ -195,42 +196,52 @@ def _(theta_slider):
         tpX, tpY = cx + a, baseY
         L = 90
         
-        draw.line([(tpX, tpY), (tpX - L, tpY)], fill=(0, 0, 0), width=5)
+        # Black arrow pointing left (solid-nucleus interface)
+        draw.line([(tpX, tpY), (tpX - L, tpY)], fill=BLACK, width=5)
         al = 20
         ah_pts = [(tpX - L, tpY),
                   (tpX - L + al, tpY - al*0.35),
                   (tpX - L + al, tpY + al*0.35)]
-        draw.polygon(ah_pts, fill=(0, 0, 0))
+        draw.polygon(ah_pts, fill=BLACK)
         
+        # White arrow pointing right (solid-liquid interface)
         draw_arrow(draw, tpX, tpY, tpX + L, tpY, WHITE, 5, arrow_len=20)
         
+        # Gold arrow along nucleus surface (nucleus-liquid interface)
         nlX = tpX - L * math.cos(theta_rad)
         nlY = tpY - L * math.sin(theta_rad)
         draw_arrow(draw, tpX, tpY, nlX, nlY, GOLD, 5, arrow_len=20)
         
+        # Dashed extension line
         ext = 95
         draw_dashed(draw, tpX - ext*math.cos(theta_rad), tpY - ext*math.sin(theta_rad),
                     tpX + ext*0.3*math.cos(theta_rad), tpY + ext*0.3*math.sin(theta_rad),
                     (180, 160, 80), 4, 3, 1)
         
+        # Contact angle arc
         ar = 38
         draw.arc([tpX-ar, tpY-ar, tpX+ar, tpY+ar], start=180, end=180+theta_deg, fill=GREEN, width=5)
         
+        # Triple point marker
         draw.ellipse([tpX-5, tpY-5, tpX+5, tpY+5], fill=WHITE, outline=GREEN, width=2)
         
-        draw.text((tpX - L - 16, tpY - 24), "γₛₙ", fill=(0, 0, 0), font=f_title)
-        draw.text((tpX + L + 10, tpY - 24), "γₛₗ", fill=WHITE, font=f_title)
-        draw.text((nlX - 36, nlY - 14), "γₙₗ", fill=GOLD, font=f_title)
+        # Surface tension labels - using simple ASCII-compatible notation
+        draw.text((tpX - L - 16, tpY - 24), "Ysn", fill=BLACK, font=f_title)
+        draw.text((tpX + L + 10, tpY - 24), "Ysl", fill=WHITE, font=f_title)
+        draw.text((nlX - 36, nlY - 14), "Ynl", fill=GOLD, font=f_title)
         
+        # Labels
         draw.text((cx, substrate_bottom - 12), "Substrate", fill=WHITE, anchor="mm", font=f_small)
         draw.text((px + 12, py + 42), "Liquid", fill=WHITE, font=f_normal)
         if h > 20:
             draw.text((cx, baseY - min(h*0.5, 50)), "Nucleus", fill=WHITE, anchor="mm", font=f_normal)
         
+        # Current values
         sf = S(theta_deg)
         draw.text((px + 12, py + 65), f"θ = {theta_deg:.0f}°", fill=GREEN, font=f_large)
         draw.text((px + 12, py + 88), f"S(θ) = {sf:.4f}", fill=CYAN, font=f_normal)
         
+        # Wetting description
         if theta_deg < 30:
             wetting, wcolor = "Excellent wetting", GREEN
         elif theta_deg < 60:
@@ -245,21 +256,23 @@ def _(theta_slider):
             wetting, wcolor = "Non-wetting", RED
         draw.text((px + 12, py + 108), wetting, fill=wcolor, font=f_small)
         
+        # Legend box
         ly = py + ph - 55
         legend_box = [px + 5, ly - 2, px + 155, ly + 48]
         draw.rectangle(legend_box, fill=(45, 65, 95), outline=(80, 100, 130))
         
-        draw.line([(px + 10, ly + 8), (px + 28, ly + 8)], fill=(0, 0, 0), width=3)
-        draw.text((px + 32, ly + 8), "γₛₙ Solid-Nucleus", fill=(0, 0, 0), anchor="lm", font=f_small)
+        draw.line([(px + 10, ly + 8), (px + 28, ly + 8)], fill=BLACK, width=3)
+        draw.text((px + 32, ly + 8), "Ysn Solid-Nucleus", fill=WHITE, anchor="lm", font=f_small)
         
         draw.line([(px + 10, ly + 22), (px + 28, ly + 22)], fill=WHITE, width=3)
-        draw.text((px + 32, ly + 22), "γₛₗ Solid-Liquid", fill=WHITE, anchor="lm", font=f_small)
+        draw.text((px + 32, ly + 22), "Ysl Solid-Liquid", fill=WHITE, anchor="lm", font=f_small)
         
         draw.line([(px + 10, ly + 36), (px + 28, ly + 36)], fill=GOLD, width=3)
-        draw.text((px + 32, ly + 36), "γₙₗ Nucleus-Liquid", fill=GOLD, anchor="lm", font=f_small)
+        draw.text((px + 32, ly + 36), "Ynl Nucleus-Liquid", fill=GOLD, anchor="lm", font=f_small)
         
+        # Young's equation
         draw.text((px + pw - 8, ly + 8), "Young's equation:", fill=GRAY, anchor="rt", font=f_small)
-        draw.text((px + pw - 8, ly + 26), "γₛₗ = γₛₙ + γₙₗ·cosθ", fill=WHITE, anchor="rt", font=f_normal)
+        draw.text((px + pw - 8, ly + 26), "Ysl = Ysn + Ynl*cos(θ)", fill=WHITE, anchor="rt", font=f_normal)
 
 
     def draw_shape_factor_panel(draw, theta_deg, px, py, pw, ph, fonts):
@@ -281,6 +294,7 @@ def _(theta_slider):
         def to_x(th): return plot_x + (th / 180) * plot_w
         def to_y(s): return plot_y + plot_h - s * plot_h
         
+        # Grid lines
         for s_val in [0.25, 0.5, 0.75]:
             y = to_y(s_val)
             draw.line([(plot_x, y), (plot_x + plot_w, y)], fill=(40, 50, 70), width=1)
@@ -288,34 +302,43 @@ def _(theta_slider):
             x = to_x(th_val)
             draw.line([(x, plot_y), (x, plot_y + plot_h)], fill=(40, 50, 70), width=1)
         
+        # Axes
         draw.line([(plot_x, plot_y + plot_h), (plot_x + plot_w, plot_y + plot_h)], fill=WHITE, width=2)
         draw.line([(plot_x, plot_y), (plot_x, plot_y + plot_h)], fill=WHITE, width=2)
         
+        # S(θ) curve
         pts = [(to_x(th), to_y(S(th))) for th in range(0, 181, 2)]
         draw.line(pts, fill=CYAN, width=3)
         
+        # Current point
         curr_x, curr_y = to_x(theta_deg), to_y(S(theta_deg))
         draw.ellipse([curr_x-8, curr_y-8, curr_x+8, curr_y+8], fill=GREEN, outline=WHITE, width=2)
         
+        # Dashed lines to current point
         draw_dashed(draw, curr_x, plot_y + plot_h, curr_x, curr_y, GRAY, 4, 3, 1)
         draw_dashed(draw, plot_x, curr_y, curr_x, curr_y, GRAY, 4, 3, 1)
         
+        # X-axis label
         draw.text((plot_x + plot_w//2, plot_y + plot_h + 32), "Contact Angle θ (degrees)", 
                   fill=GREEN, anchor="mm", font=f_medium)
         
+        # X-axis tick labels
         for th_val in [0, 45, 90, 135, 180]:
             x = to_x(th_val)
             draw.text((x, plot_y + plot_h + 14), str(th_val), fill=WHITE, anchor="mm", font=f_normal)
         
+        # Y-axis label
         draw.text((px + 6, plot_y - 22), "S(θ)", fill=CYAN, font=f_large)
         
+        # Y-axis tick labels
         for s_val in [0, 0.25, 0.5, 0.75, 1.0]:
             y = to_y(s_val)
             draw.text((plot_x - 8, y), f"{s_val:.2f}", fill=WHITE, anchor="rm", font=f_normal)
         
+        # Equation
         eq_x = plot_x + int(plot_w * 0.72)
         eq_y = plot_y + int(plot_h * 0.78)
-        draw.text((eq_x, eq_y), "S(θ) = (2+cosθ)(1−cosθ)²/4", fill=CYAN, anchor="mm", font=f_normal)
+        draw.text((eq_x, eq_y), "S(θ) = (2+cosθ)(1-cosθ)²/4", fill=CYAN, anchor="mm", font=f_normal)
 
 
     def draw_barrier_panel(draw, theta_deg, px, py, pw, ph, fonts):
@@ -323,11 +346,12 @@ def _(theta_slider):
         f_small, f_normal, f_medium, f_large, f_title, f_bigtitle = fonts
         
         draw.rectangle([px, py, px+pw, py+ph], fill=PANEL_BG, outline=LIGHT_GRAY)
-        draw.text((px + pw//2, py + 18), "NUCLEATION BARRIER ΔG*", fill=YELLOW, anchor="mm", font=f_bigtitle)
+        draw.text((px + pw//2, py + 18), "NUCLEATION BARRIER dG*", fill=YELLOW, anchor="mm", font=f_bigtitle)
         
         sf = S(theta_deg)
         
-        draw.text((px + pw//2, py + 42), f"ΔG*ₕₑₜ = {sf*100:.1f}% of ΔG*ₕₒₘ", fill=ORANGE, anchor="mm", font=f_medium)
+        # Percentage comparison
+        draw.text((px + pw//2, py + 42), f"dG*(het) = {sf*100:.1f}% of dG*(hom)", fill=ORANGE, anchor="mm", font=f_medium)
         
         margin = {'l': 55, 'r': 15, 't': 60, 'b': 55}
         plot_x = px + margin['l']
@@ -335,6 +359,7 @@ def _(theta_slider):
         plot_w = pw - margin['l'] - margin['r']
         plot_h = ph - margin['t'] - margin['b']
         
+        # Normalized ΔG curve shape: peaks at r/r* = 1
         def dG(r, s=1): 
             return s * (3*r**2 - 2*r**3) if r > 0 else 0
         
@@ -346,6 +371,7 @@ def _(theta_slider):
         
         zero_y = to_y(0)
         
+        # Grid lines
         for g_val in [0.25, 0.5, 0.75, 1.0]:
             y = to_y(g_val)
             draw.line([(plot_x, y), (plot_x + plot_w, y)], fill=(40, 50, 70), width=1)
@@ -353,9 +379,11 @@ def _(theta_slider):
             x = to_x(r_val)
             draw.line([(x, plot_y), (x, plot_y + plot_h)], fill=(40, 50, 70), width=1)
         
+        # Axes
         draw.line([(plot_x, zero_y), (plot_x + plot_w, zero_y)], fill=WHITE, width=2)
         draw.line([(plot_x, plot_y), (plot_x, plot_y + plot_h)], fill=WHITE, width=2)
         
+        # Homogeneous curve (dashed gray)
         prev = None
         for i in range(0, 101, 1):
             r = i/100 * r_max
@@ -368,6 +396,7 @@ def _(theta_slider):
             else:
                 prev = None
         
+        # Heterogeneous curve (solid cyan)
         het_pts = []
         for i in range(101):
             r = i/100 * r_max
@@ -377,47 +406,58 @@ def _(theta_slider):
         if len(het_pts) >= 2:
             draw.line(het_pts, fill=CYAN, width=3)
         
+        # Critical points at r* = 1
         r_star_x = to_x(1.0)
         hom_peak_y = to_y(1.0)
         het_peak_y = to_y(sf)
         
+        # Vertical line at r*
         draw.line([(r_star_x, plot_y), (r_star_x, zero_y)], fill=(60, 80, 100), width=1)
         
+        # Homogeneous peak marker
         draw_dashed(draw, r_star_x, zero_y, r_star_x, hom_peak_y, ORANGE, 4, 3, 1)
         draw.ellipse([r_star_x-5, hom_peak_y-5, r_star_x+5, hom_peak_y+5], fill=GRAY, outline=WHITE)
         
+        # Heterogeneous peak marker
         draw_dashed(draw, r_star_x+2, zero_y, r_star_x+2, het_peak_y, ORANGE, 4, 3, 1)
         draw.ellipse([r_star_x-7, het_peak_y-7, r_star_x+7, het_peak_y+7], fill=ORANGE, outline=WHITE, width=2)
         
+        # Barrier reduction arrow
         if sf < 0.85:
             ax = r_star_x + 22
             draw.line([(ax, zero_y-2), (ax, het_peak_y+2)], fill=ORANGE, width=2)
             draw.polygon([(ax, het_peak_y), (ax-4, het_peak_y+8), (ax+4, het_peak_y+8)], fill=ORANGE)
             draw.polygon([(ax, zero_y), (ax-4, zero_y-8), (ax+4, zero_y-8)], fill=ORANGE)
         
+        # Legend
         lx, ly = plot_x + plot_w - 5, plot_y + 12
         draw.line([(lx-115, ly), (lx-88, ly)], fill=GRAY, width=2)
         draw.text((lx-84, ly), "Homogeneous", fill=WHITE, anchor="lm", font=f_small)
         draw.line([(lx-115, ly+16), (lx-88, ly+16)], fill=CYAN, width=3)
         draw.text((lx-84, ly+16), "Heterogeneous", fill=WHITE, anchor="lm", font=f_small)
         
+        # X-axis label
         draw.text((plot_x + plot_w//2, plot_y + plot_h + 32), "Normalized Radius r/r*", 
                   fill=WHITE, anchor="mm", font=f_medium)
         
+        # X-axis tick labels
         for r_val in [0, 0.5, 1.0, 1.5]:
             x = to_x(r_val)
             label = "r*" if r_val == 1.0 else f"{r_val:.1f}"
             draw.text((x, zero_y + 14), label, fill=WHITE, anchor="mm", font=f_normal)
         
-        draw.text((px + 5, plot_y - 12), "ΔG/ΔG*ₕₒₘ", fill=ORANGE, font=f_medium)
+        # Y-axis label
+        draw.text((px + 5, plot_y - 12), "dG/dG*(hom)", fill=ORANGE, font=f_medium)
         
+        # Y-axis tick labels
         for g_val in [0, 0.5, 1.0]:
             y = to_y(g_val)
             draw.text((plot_x - 8, y), f"{g_val:.1f}", fill=WHITE, anchor="rm", font=f_normal)
         
+        # Key equation
         eq_x = plot_x + int(plot_w * 0.30)
         eq_y = plot_y + int(plot_h * 0.15)
-        draw.text((eq_x, eq_y), "ΔG*ₕₑₜ = S(θ)·ΔG*ₕₒₘ", fill=ORANGE, anchor="mm", font=f_medium)
+        draw.text((eq_x, eq_y), "dG*(het) = S(θ)·dG*(hom)", fill=ORANGE, anchor="mm", font=f_medium)
 
 
     def draw_frame(theta_deg):
@@ -456,7 +496,7 @@ def _(mo):
 
     This interactive visualization demonstrates how **contact angle θ** affects heterogeneous nucleation:
 
-    - **Left panel**: Shows the nucleus geometry as a spherical cap on a substrate, with surface tension vectors (γₛₙ, γₛₗ, γₙₗ) and the contact angle θ
+    - **Left panel**: Shows the nucleus geometry as a spherical cap on a substrate, with surface tension vectors (γsn, γsl, γnl) and the contact angle θ
     - **Middle panel**: The shape factor S(θ) curve - this determines how much the nucleation barrier is reduced
     - **Right panel**: Comparison of homogeneous vs heterogeneous nucleation energy barriers
 
