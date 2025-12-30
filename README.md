@@ -6,7 +6,7 @@ Interactive visualization demonstrating how contact angle affects heterogeneous 
 
 ## 🔬 Live Demo
 
-**[Try the Interactive Visualization](https://dimascad.github.io/heterogeneous-nucleation/)**
+**[Try the Interactive Visualization](https://marimo.app/gh/dimascad/heterogeneous-nucleation/blob/main/visualization.py)**
 
 Use the slider to adjust the contact angle and see how it affects:
 - Nucleus geometry (spherical cap shape)
