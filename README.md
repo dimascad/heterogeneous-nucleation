@@ -29,7 +29,7 @@ $$S(\theta) = \frac{(2 + \cos\theta)(1 - \cos\theta)^2}{4}$$
 
 This determines how much the nucleation barrier is reduced:
 
-$$\Delta G^{*}_{het} = S(\theta) \cdot \Delta G^{*}_{hom}$$
+$$\Delta G_{het}^{*} = S(\theta) \cdot \Delta G_{hom}^{*}$$
 
 | Contact Angle | $S(\theta)$ | Barrier Reduction | Wetting |
 |:-------------:|:-----------:|:-----------------:|:-------:|
