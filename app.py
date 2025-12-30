@@ -445,14 +445,12 @@ def _(theta_slider):
     buffer.seek(0)
     img_base64 = base64.b64encode(buffer.getvalue()).decode()
     
-    import marimo as mo
     mo.Html(f'<img src="data:image/png;base64,{img_base64}" style="max-width: 100%;">')
     return
 
 
 @app.cell
-def _():
-    import marimo as mo
+def _(mo):
     mo.md("""
     ## Heterogeneous Nucleation Visualization
 
