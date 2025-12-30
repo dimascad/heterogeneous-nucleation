@@ -11,7 +11,7 @@ Interactive visualization demonstrating how contact angle affects heterogeneous 
 Use the slider to adjust the contact angle and see how it affects:
 - Nucleus geometry (spherical cap shape)
 - Shape factor $S(\theta)$
-- Nucleation energy barrier $\Delta G^{*}$
+- Nucleation energy barrier $\Delta G^\ast$
 
 ## Physics Background
 
@@ -29,7 +29,7 @@ $$S(\theta) = \frac{(2 + \cos\theta)(1 - \cos\theta)^2}{4}$$
 
 This determines how much the nucleation barrier is reduced:
 
-$$\Delta G_{het}^{*} = S(\theta) \cdot \Delta G_{hom}^{*}$$
+$$\Delta G^\ast_{het} = S(\theta) \cdot \Delta G^\ast_{hom}$$
 
 | Contact Angle | $S(\theta)$ | Barrier Reduction | Wetting |
 |:-------------:|:-----------:|:-----------------:|:-------:|
@@ -56,7 +56,7 @@ Where:
 
 2. **Shape Factor $S(\theta)$ (Middle):** Plots the shape factor vs contact angle, showing how the barrier reduction factor varies from 0 to 1.
 
-3. **Nucleation Barrier $\Delta G^{*}$ (Right):** Compares the energy barrier curves for homogeneous (dashed) and heterogeneous (solid) nucleation. Both peak at the critical radius $r^{*}$, but the heterogeneous barrier is lower by factor $S(\theta)$.
+3. **Nucleation Barrier $\Delta G^\ast$ (Right):** Compares the energy barrier curves for homogeneous (dashed) and heterogeneous (solid) nucleation. Both peak at the critical radius $r^\ast$, but the heterogeneous barrier is lower by factor $S(\theta)$.
 
 ## Running Locally
 
