@@ -5,7 +5,7 @@ Interactive visualization demonstrating how contact angle affects heterogeneous 
 ![Heterogeneous Nucleation Animation](heterogeneous_nucleation.gif)
 
 ## 🔬 Live Demo
-[![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_pycPdw7rynJhZbu49mR2t4)
+[![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_LxW3K2SjDn9j5uFzXRQ8gm)
 Use the slider to adjust the contact angle and see how it affects:
 - Nucleus geometry (spherical cap shape)
 - Shape factor $S(\theta)$
