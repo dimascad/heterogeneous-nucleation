@@ -1,90 +1,78 @@
-# Heterogeneous Nucleation Visualization
+# Heterogeneous Nucleation
 
-Interactive visualization demonstrating how contact angle affects heterogeneous nucleation barriers in materials science.
-
-![Heterogeneous Nucleation Animation](heterogeneous_nucleation.gif)
-
-## 🔬 Live Demo
+Interactive visualization of how surfaces catalyze phase transformations.
 
 [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_LxW3K2SjDn9j5uFzXRQ8gm)
 
-Use the slider to adjust the contact angle and see how it affects:
-- Nucleus geometry (spherical cap shape)
-- Shape factor $S(\theta)$
-- Nucleation energy barrier $\Delta G^\ast$
+## Overview
 
-## Physics Background
+| Part | Content |
+|------|---------|
+| **Part 1** | Why nucleation has a barrier, why surfaces help |
+| **Part 2** | Step-by-step derivation of the shape factor |
+| **Part 3** | Interactive 3-panel visualization |
 
-### Heterogeneous vs Homogeneous Nucleation
+## Interactive Visualizations
 
-Nucleation is the first step in phase transformations (e.g., solidification, precipitation). Homogeneous nucleation occurs uniformly throughout a material, while heterogeneous nucleation occurs at preferential sites like surfaces, grain boundaries, or impurities.
+### Energy Competition
+![Energy Competition](assets/energy_competition.gif)
 
-Heterogeneous nucleation is favored because it requires less energy — the nucleus forms as a spherical cap rather than a full sphere, reducing the total surface energy.
+Surface energy (∝ r²) vs volume energy (∝ r³) — drag the slider to see the critical radius r*.
 
-### The Shape Factor $S(\theta)$
+### Nucleus Fate
+![Nucleus Fate](assets/nucleus_fate.gif)
 
-The key relationship is governed by the shape factor:
+Watch a nucleus grow or shrink based on its size relative to r*.
 
+### Surface Tension Balance
+![Surface Tensions](assets/surface_tensions.gif)
+
+Adjust γ<sub>SL</sub>, γ<sub>SN</sub>, γ<sub>NL</sub> to see Young's equation determine θ.
+
+### Disk Integration
+![Disk Integration](assets/disk_integration.gif)
+
+Visualize the calculus: move a disk slice through the spherical cap.
+
+### Complete 3-Panel Dashboard
+![3-Panel Dashboard](assets/three_panel.gif)
+
+Geometry, shape factor S(θ), and barrier reduction — all responding to contact angle.
+
+## The Derivation
+
+**Step 1: Geometry**
+$$h = R(1 - \cos\theta), \quad a = R\sin\theta$$
+
+**Step 2: Cap Volume** (disk integration)
+$$V_{cap} = \int_{R-h}^{R} \pi(R^2 - y^2) \, dy = \frac{\pi h^2}{3}(3R - h)$$
+
+**Step 3: Shape Factor**
 $$S(\theta) = \frac{(2 + \cos\theta)(1 - \cos\theta)^2}{4}$$
 
-This determines how much the nucleation barrier is reduced:
+**Step 4: Barrier Reduction**
+$$\Delta G^*_{het} = S(\theta) \cdot \Delta G^*_{hom}$$
 
-$$\Delta G^\ast_{het} = S(\theta) \cdot \Delta G^\ast_{hom}$$
+## Key Equations
 
-| Contact Angle | $S(\theta)$ | Barrier Reduction | Wetting |
-|:-------------:|:-----------:|:-----------------:|:-------:|
-| $\theta \to 0°$ | $\to 0$ | Nearly eliminated | Excellent |
-| $\theta = 60°$ | 0.16 | 84% reduction | Good |
-| $\theta = 90°$ | 0.50 | 50% reduction | Moderate |
-| $\theta = 120°$ | 0.84 | 16% reduction | Poor |
-| $\theta \to 180°$ | $\to 1$ | No reduction | Non-wetting |
+### Shape Factor S(θ)
 
-### Surface Tension Balance (Young's Equation)
+| θ | S(θ) | Barrier |
+|:---:|:---:|:---:|
+| 0° | 0 | Eliminated |
+| 90° | 0.50 | 50% |
+| 180° | 1 | No reduction |
 
-At the triple point where nucleus, liquid, and substrate meet, the surface tensions are in equilibrium:
+### Young's Equation
 
 $$\gamma_{SL} = \gamma_{SN} + \gamma_{NL} \cos\theta$$
-
-Where:
-- $\gamma_{SL}$ = Substrate–Liquid interfacial energy
-- $\gamma_{SN}$ = Substrate–Nucleus interfacial energy
-- $\gamma_{NL}$ = Nucleus–Liquid interfacial energy
-
-### Visualization Panels
-
-1. **Nucleus Geometry (Left):** Shows the spherical cap nucleus on the substrate with surface tension vectors and contact angle. The dashed circle shows the full sphere that the cap belongs to, with radius $r$.
-
-2. **Shape Factor $S(\theta)$ (Middle):** Plots the shape factor vs contact angle, showing how the barrier reduction factor varies from 0 to 1.
-
-3. **Nucleation Barrier $\Delta G^\ast$ (Right):** Compares the energy barrier curves for homogeneous (dashed) and heterogeneous (solid) nucleation. Both peak at the critical radius $r^\ast$, but the heterogeneous barrier is lower by factor $S(\theta)$.
 
 ## Running Locally
 
 ```bash
-pip install marimo pillow
+pip install marimo pillow matplotlib numpy
 marimo run app.py
 ```
-
-Or generate the GIF:
-
-```bash
-pip install pillow
-python generate_v2.py
-```
-
-## Files
-
-| File | Description |
-|------|-------------|
-| `app.py` | Marimo notebook source code |
-| `generate_v2.py` | GIF generation script |
-| `heterogeneous_nucleation.gif` | Animated visualization |
-| `requirements.txt` | Python dependencies |
-
-## References
-
-- Porter, D.A. & Easterling, K.E., *Phase Transformations in Metals and Alloys*
-- Callister, W.D., *Materials Science and Engineering: An Introduction*
 
 ## License
 
