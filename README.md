@@ -35,7 +35,7 @@ $$
 **Step 2: Cap Volume** (disk integration)
 
 $$
-V_{cap} = \int_{R-h}^{R} \pi(R^2 - y^2) \: dy = \frac{\pi h^2}{3}(3R - h)
+V_{cap} = \int_{R-h}^{R} \pi(R^2 - y^2) \ dy = \frac{\pi h^2}{3}(3R - h)
 $$
 
 **Step 3: Shape Factor**
