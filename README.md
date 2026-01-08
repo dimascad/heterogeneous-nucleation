@@ -27,16 +27,28 @@ The notebook includes interactive sliders for:
 ## The Derivation
 
 **Step 1: Geometry**
-$$h = R(1 - \cos\theta), \quad a = R\sin\theta$$
+
+$$
+h = R(1 - \cos\theta), \quad a = R\sin\theta
+$$
 
 **Step 2: Cap Volume** (disk integration)
-$$V_{cap} = \int_{R-h}^{R} \pi(R^2 - y^2) \, dy = \frac{\pi h^2}{3}(3R - h)$$
+
+$$
+V_{cap} = \int_{R-h}^{R} \pi(R^2 - y^2) \, dy = \frac{\pi h^2}{3}(3R - h)
+$$
 
 **Step 3: Shape Factor**
-$$S(\theta) = \frac{(2 + \cos\theta)(1 - \cos\theta)^2}{4}$$
+
+$$
+S(\theta) = \frac{(2 + \cos\theta)(1 - \cos\theta)^2}{4}
+$$
 
 **Step 4: Barrier Reduction**
-$$\Delta G^*_{het} = S(\theta) \cdot \Delta G^*_{hom}$$
+
+$$
+\Delta G^\ast_{het} = S(\theta) \cdot \Delta G^\ast_{hom}
+$$
 
 ## Key Equations
 
@@ -50,7 +62,9 @@ $$\Delta G^*_{het} = S(\theta) \cdot \Delta G^*_{hom}$$
 
 ### Young's Equation
 
-$$\gamma_{SL} = \gamma_{SN} + \gamma_{NL} \cos\theta$$
+$$
+\gamma_{SL} = \gamma_{SN} + \gamma_{NL} \cos\theta
+$$
 
 ## Running Locally
 
