@@ -2,6 +2,8 @@
 
 Interactive visualization of how surfaces catalyze phase transformations.
 
+![Heterogeneous Nucleation](heterogeneous_nucleation.gif)
+
 [![Open in molab](https://molab.marimo.io/molab-shield.svg)](https://molab.marimo.io/notebooks/nb_LxW3K2SjDn9j5uFzXRQ8gm)
 
 ## Overview
@@ -14,30 +16,13 @@ Interactive visualization of how surfaces catalyze phase transformations.
 
 ## Interactive Visualizations
 
-### Energy Competition
-![Energy Competition](assets/energy_competition.gif)
+The notebook includes interactive sliders for:
 
-Surface energy (∝ r²) vs volume energy (∝ r³) — drag the slider to see the critical radius r*.
-
-### Nucleus Fate
-![Nucleus Fate](assets/nucleus_fate.gif)
-
-Watch a nucleus grow or shrink based on its size relative to r*.
-
-### Surface Tension Balance
-![Surface Tensions](assets/surface_tensions.gif)
-
-Adjust γ<sub>SL</sub>, γ<sub>SN</sub>, γ<sub>NL</sub> to see Young's equation determine θ.
-
-### Disk Integration
-![Disk Integration](assets/disk_integration.gif)
-
-Visualize the calculus: move a disk slice through the spherical cap.
-
-### Complete 3-Panel Dashboard
-![3-Panel Dashboard](assets/three_panel.gif)
-
-Geometry, shape factor S(θ), and barrier reduction — all responding to contact angle.
+- **Energy competition** — Surface energy (∝ r²) vs volume energy (∝ r³)
+- **Nucleus fate** — Watch a nucleus grow or shrink based on size relative to r*
+- **Surface tension balance** — Adjust γ<sub>SL</sub>, γ<sub>SN</sub>, γ<sub>NL</sub> to see Young's equation
+- **Disk integration** — Move a slice through the spherical cap to visualize the calculus
+- **3-panel dashboard** — Geometry, S(θ) curve, and barrier reduction together
 
 ## The Derivation
 
